@@ -81,3 +81,33 @@ ws.onmessage = (event) => {
     updateStockPrices(data.stocks);
     updateCryptoPrices(data.crypto);
 };
+require('dotenv').config();
+const express = require('express');
+const { Pool } = require('pg');
+const WebSocket = require('ws');
+const app = express();
+const cors = require('cors');
+
+app.use(cors());
+app.use(express.json());
+
+// PostgreSQL
+const pool = new Pool({ connectionString: process.env.DB_URL });
+
+// WebSocket Server
+const wss = new WebSocket.Server({ port: 8080 });
+
+// API Routes
+app.post('/api/stocks/order', async (req, res) => {
+    const { symbol, qty, action } = req.body;
+    const price = Math.random() * 1000; // Mock price
+    await pool.query(
+        `INSERT INTO stock_orders (symbol, qty, price, action) 
+         VALUES ($1, $2, $3, $4)`,
+        [symbol, qty, price, action]
+    );
+    res.json({ success: true });
+});
+
+// Start Server
+app.listen(3000, () => console.log('Server running on port 3000'));
