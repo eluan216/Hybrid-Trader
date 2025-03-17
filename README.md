@@ -119,3 +119,5 @@ CREATE TABLE stock_orders (
     action VARCHAR(4) CHECK (action IN ('BUY', 'SELL')),
     created_at TIMESTAMP DEFAULT NOW()
 );
+DB_URL=postgresql://user:password@host:port/dbname
+JWT_SECRET=your_jwt_secret
