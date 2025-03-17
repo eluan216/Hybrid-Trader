@@ -59,3 +59,25 @@ body { background: var(--secondary); color: white; }
 .card { background: var(--primary); margin: 10px; }
 .nav-tabs .nav-link { color: #00ff00 !important; }
 #stockChart, #cryptoChart { height: 300px; }
+// API Client
+const API = axios.create({ baseURL: 'https://your-render-backend-url.onrender.com/api' });
+
+// Stock Trading
+async function executeStockOrder(type) {
+    const token = localStorage.getItem('token');
+    const stock = document.getElementById('stockSelect').value;
+    const qty = parseFloat(document.getElementById('stockQty').value);
+    
+    await API.post('/stocks/order', { symbol: stock, qty, action: type }, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+    alert('Order placed!');
+}
+
+// WebSocket Connection
+const ws = new WebSocket('wss://your-render-backend-url.onrender.com');
+ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    updateStockPrices(data.stocks);
+    updateCryptoPrices(data.crypto);
+};
