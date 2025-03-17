@@ -49,3 +49,13 @@
     <script src="app.js"></script>
 </body>
 </html>
+:root {
+    --primary: #2d2d2d;
+    --secondary: #1a1a1a;
+    --profit: #00ff00;
+    --loss: #ff0000;
+}
+body { background: var(--secondary); color: white; }
+.card { background: var(--primary); margin: 10px; }
+.nav-tabs .nav-link { color: #00ff00 !important; }
+#stockChart, #cryptoChart { height: 300px; }
