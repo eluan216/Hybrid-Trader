@@ -121,3 +121,20 @@ CREATE TABLE stock_orders (
 );
 DB_URL=postgresql://user:password@host:port/dbname
 JWT_SECRET=your_jwt_secret
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Staking {
+    mapping(address => uint256) public stakedBalance;
+    uint256 public apy = 10;
+
+    function stake() external payable {
+        stakedBalance[msg.sender] += msg.value;
+    }
+
+    function unstake(uint256 amount) external {
+        require(stakedBalance[msg.sender] >= amount, "Insufficient balance");
+        stakedBalance[msg.sender] -= amount;
+        payable(msg.sender).transfer(amount);
+    }
+}
