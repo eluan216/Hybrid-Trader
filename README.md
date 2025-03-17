@@ -111,3 +111,11 @@ app.post('/api/stocks/order', async (req, res) => {
 
 // Start Server
 app.listen(3000, () => console.log('Server running on port 3000'));
+CREATE TABLE stock_orders (
+    id SERIAL PRIMARY KEY,
+    symbol VARCHAR(10) NOT NULL,
+    qty DECIMAL NOT NULL,
+    price DECIMAL NOT NULL,
+    action VARCHAR(4) CHECK (action IN ('BUY', 'SELL')),
+    created_at TIMESTAMP DEFAULT NOW()
+);
